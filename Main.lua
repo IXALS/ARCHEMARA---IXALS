@@ -9,7 +9,6 @@ local Camera = workspace.CurrentCamera
 local uiKeybind = Enum.KeyCode.K
 local isBinding = false
 
-local infHpEnabled = false
 local animTweakEnabled = false
 local animMultiplier = 5
 local infStaminaEnabled = false
@@ -19,7 +18,6 @@ local flySpeedMultiplier = 2
 local baseFlySpeed = 50
 local noFallDamageEnabled = false
 local fullBrightEnabled = false
-local espChestEnabled = false
 
 local flyCtrl = {f = 0, b = 0, l = 0, r = 0, u = 0, d = 0}
 local bv, bg
@@ -30,8 +28,8 @@ ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ResetOnSpawn = false
 
 local MainFrame = Instance.new("Frame")
-MainFrame.Size = UDim2.new(0, 320, 0, 630)
-MainFrame.Position = UDim2.new(0.5, -160, 0.5, -315)
+MainFrame.Size = UDim2.new(0, 320, 0, 530)
+MainFrame.Position = UDim2.new(0.5, -160, 0.5, -265)
 MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
 MainFrame.BackgroundTransparency = 0.4
 MainFrame.BorderSizePixel = 0
@@ -44,7 +42,7 @@ MainCorner.CornerRadius = UDim.new(0, 12)
 MainCorner.Parent = MainFrame
 
 local MainStroke = Instance.new("UIStroke")
-MainStroke.Color = Color3.fromRGB(255, 215, 0)
+MainStroke.Color = Color3.fromRGB(0, 255, 255)
 MainStroke.Thickness = 1.2
 MainStroke.Transparency = 0.2
 MainStroke.Parent = MainFrame
@@ -64,7 +62,7 @@ local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(1, -20, 1, 0)
 Title.Position = UDim2.new(0, 20, 0, 0)
 Title.BackgroundTransparency = 1
-Title.Text = "IXALS V14"
+Title.Text = "IXALS V16"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.Font = Enum.Font.GothamBold
 Title.TextSize = 16
@@ -145,88 +143,33 @@ local function ToggleVisual(btn, state, onText, offText, onColor)
     end
 end
 
-local ToggleHpBtn = CreateButton(MainFrame, "Infinite HP (God Mode): OFF", 50)
-local ToggleFullBrightBtn = CreateButton(MainFrame, "Full Bright (No Shadows): OFF", 100)
-local ToggleEspChestBtn = CreateButton(MainFrame, "Chest ESP (Wallhack): OFF", 150)
-local ToggleAnimBtn = CreateButton(MainFrame, "Fast Attack Anim: OFF", 200)
+local ToggleFullBrightBtn = CreateButton(MainFrame, "Full Bright (No Shadows): OFF", 50)
+local ToggleAnimBtn = CreateButton(MainFrame, "Fast Attack Anim: OFF", 100)
 
-CreateLabel(MainFrame, "Anim Speed (Mult):", 0.05, 245, 0.4)
-local SpeedInput = CreateInput(MainFrame, "5", 0.5, 240, 0.45)
+CreateLabel(MainFrame, "Anim Speed (Mult):", 0.05, 145, 0.4)
+local SpeedInput = CreateInput(MainFrame, "5", 0.5, 140, 0.45)
 
-local ToggleStaminaBtn = CreateButton(MainFrame, "Infinite Stamina/Energy: OFF", 280)
-local ToggleNoclipBtn = CreateButton(MainFrame, "Noclip (Walk Through Walls): OFF", 330)
-local ToggleNoFallBtn = CreateButton(MainFrame, "Anti-Fall Damage: OFF", 380)
-local ToggleFlyBtn = CreateButton(MainFrame, "Fly Mode: OFF", 430)
+local ToggleStaminaBtn = CreateButton(MainFrame, "Infinite Stamina/Energy: OFF", 180)
+local ToggleNoclipBtn = CreateButton(MainFrame, "Noclip (Walk Through Walls): OFF", 230)
+local ToggleNoFallBtn = CreateButton(MainFrame, "Anti-Fall Damage: OFF", 280)
+local ToggleFlyBtn = CreateButton(MainFrame, "Fly Mode: OFF", 330)
 
-CreateLabel(MainFrame, "Fly Speed (0 - 5):", 0.05, 475, 0.4)
-local FlySpeedInput = CreateInput(MainFrame, "2", 0.5, 470, 0.45)
+CreateLabel(MainFrame, "Fly Speed (0 - 5):", 0.05, 375, 0.4)
+local FlySpeedInput = CreateInput(MainFrame, "2", 0.5, 370, 0.45)
 
-local BindLabel = CreateLabel(MainFrame, "Hide UI Keybind:", 0.05, 515, 0.5)
-local BindBtn = CreateButton(MainFrame, "K", 535, 35)
+local BindLabel = CreateLabel(MainFrame, "Hide UI Keybind:", 0.05, 415, 0.5)
+local BindBtn = CreateButton(MainFrame, "K", 435, 35)
 
 local InfoLabel = Instance.new("TextLabel")
-InfoLabel.Size = UDim2.new(0.9, 0, 0, 40)
-InfoLabel.Position = UDim2.new(0.05, 0, 0, 580)
+InfoLabel.Size = UDim2.new(0.9, 0, 0, 30)
+InfoLabel.Position = UDim2.new(0.05, 0, 0, 485)
 InfoLabel.BackgroundTransparency = 1
-InfoLabel.Text = "Chest ESP will highlight objects named Chest, Crate, or Treasure through walls."
-InfoLabel.TextColor3 = Color3.fromRGB(255, 215, 0)
+InfoLabel.Text = "Settings applied instantly. Keep UI hidden (K) for better performance."
+InfoLabel.TextColor3 = Color3.fromRGB(150, 150, 150)
 InfoLabel.Font = Enum.Font.Gotham
 InfoLabel.TextSize = 11
 InfoLabel.TextWrapped = true
 InfoLabel.Parent = MainFrame
-
-local function ApplyESP(object)
-    if not object:FindFirstChild("Ixals_ESP_Highlight") then
-        local highlight = Instance.new("Highlight")
-        highlight.Name = "Ixals_ESP_Highlight"
-        highlight.FillColor = Color3.fromRGB(255, 215, 0)
-        highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
-        highlight.FillTransparency = 0.5
-        highlight.OutlineTransparency = 0
-        highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-        highlight.Parent = object
-        
-        local bill = Instance.new("BillboardGui")
-        bill.Name = "Ixals_ESP_Text"
-        bill.Size = UDim2.new(0, 100, 0, 40)
-        bill.StudsOffset = Vector3.new(0, 3, 0)
-        bill.AlwaysOnTop = true
-        
-        local txt = Instance.new("TextLabel")
-        txt.Size = UDim2.new(1, 0, 1, 0)
-        txt.BackgroundTransparency = 1
-        txt.Text = "CHEST"
-        txt.TextColor3 = Color3.fromRGB(255, 215, 0)
-        txt.TextStrokeTransparency = 0
-        txt.Font = Enum.Font.GothamBold
-        txt.TextSize = 12
-        txt.Parent = bill
-        
-        bill.Parent = object
-    end
-end
-
-local function RemoveESP()
-    for _, v in pairs(workspace:GetDescendants()) do
-        if v:FindFirstChild("Ixals_ESP_Highlight") then
-            v.Ixals_ESP_Highlight:Destroy()
-        end
-        if v:FindFirstChild("Ixals_ESP_Text") then
-            v.Ixals_ESP_Text:Destroy()
-        end
-    end
-end
-
-local function ScanForChests()
-    for _, v in pairs(workspace:GetDescendants()) do
-        if v:IsA("Model") or v:IsA("BasePart") then
-            local name = string.lower(v.Name)
-            if name:match("chest") or name:match("crate") or name:match("treasure") then
-                ApplyESP(v)
-            end
-        end
-    end
-end
 
 BindBtn.MouseButton1Click:Connect(function()
     TweenClick(BindBtn)
@@ -246,27 +189,10 @@ UserInputService.InputBegan:Connect(function(input, gp)
     end
 end)
 
-ToggleHpBtn.MouseButton1Click:Connect(function()
-    TweenClick(ToggleHpBtn)
-    infHpEnabled = not infHpEnabled
-    ToggleVisual(ToggleHpBtn, infHpEnabled, "Infinite HP: ON", "Infinite HP: OFF", Color3.fromRGB(255, 50, 50))
-end)
-
 ToggleFullBrightBtn.MouseButton1Click:Connect(function()
     TweenClick(ToggleFullBrightBtn)
     fullBrightEnabled = not fullBrightEnabled
     ToggleVisual(ToggleFullBrightBtn, fullBrightEnabled, "Full Bright: ON", "Full Bright: OFF", Color3.fromRGB(255, 200, 50))
-end)
-
-ToggleEspChestBtn.MouseButton1Click:Connect(function()
-    TweenClick(ToggleEspChestBtn)
-    espChestEnabled = not espChestEnabled
-    ToggleVisual(ToggleEspChestBtn, espChestEnabled, "Chest ESP: ON", "Chest ESP: OFF", Color3.fromRGB(255, 215, 0))
-    if espChestEnabled then
-        ScanForChests()
-    else
-        RemoveESP()
-    end
 end)
 
 ToggleAnimBtn.MouseButton1Click:Connect(function()
@@ -396,23 +322,9 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 
-task.spawn(function()
-    while task.wait(3) do
-        if espChestEnabled then
-            ScanForChests()
-        end
-    end
-end)
-
 RunService.Stepped:Connect(function()
     if not LocalPlayer.Character then return end
     local humanoid = LocalPlayer.Character:FindFirstChild("Humanoid")
-
-    if infHpEnabled and humanoid then
-        if humanoid.Health < humanoid.MaxHealth and humanoid.Health > 0 then
-            humanoid.Health = humanoid.MaxHealth
-        end
-    end
     
     if noclipEnabled then
         for _, part in pairs(LocalPlayer.Character:GetDescendants()) do
