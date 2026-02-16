@@ -1,22 +1,23 @@
 # IXALS Hub - ARCHEMARA
 
-IXALS Hub is a performance-oriented utility script designed for the Roblox engine, focusing on movement physics, environment lighting, and animation manipulation. This project is hosted on GitHub to support seamless remote execution and version control for the user IXALS.
+IXALS Hub is a performance-oriented utility script designed for the Roblox engine, focusing on movement physics, server-side damage injection, and animation manipulation. This project is hosted on GitHub to support seamless remote execution and version control for the user IXALS.
 
 ## Feature Overview
 
-The current version (V16) includes the following functional modules:
+The current version includes the following functional modules:
 
 * **Movement Physics**: Integrated Fly Mode with adjustable speed multipliers, Noclip for bypassing part collisions, and Anti-Fall damage state management.
+* **Combat Modules**: High-frequency Kill Aura with a 40-meter radius using server-side damage injection via the Damager RemoteEvent.
 * **Animation Tweaker**: Real-time modification of animation tracks, specifically targeting 'Action' priority sequences for increased execution speed.
 * **Environment Control**: Global lighting override featuring a Full Bright system that disables shadows, fog, and forces a static day-time cycle.
 * **Utility**: Automated stamina and energy value management, combined with customizable UI keybinds for accessibility.
 
 ## User Interface
 
-The script utilizes a custom Glassmorphism UI framework. Key design elements include:
-* **Visual Clarity**: Translucent background with Cyan (Neon) accent strokes.
-* **Interactivity**: Event-driven buttons and real-time text input for speed variables.
-* **Efficiency**: Toggle-based system to ensure low overhead during intensive gameplay.
+The script utilizes a custom Sidebar-based Glassmorphism UI framework. Key design elements include:
+* **Visual Clarity**: Translucent background with Cyan (Neon) accent strokes and a structured sidebar navigation menu.
+* **Interactivity**: Event-driven toggle switches and real-time text input for speed and animation variables.
+* **Security**: Integrated Key System for initial access verification and premium user authentication.
 
 ## Installation and Execution
 
@@ -25,14 +26,16 @@ To initialize the Hub, execute the following loadstring in a compatible environm
 ```lua
 loadstring(game:HttpGet("https://raw.githubusercontent.com/IXALS/ARCHEMARA---IXALS/refs/heads/main/Main.lua"))() 
 ```
-Technical Architecture
-Core Engine: Built on Luau (Roblox's derivative of Lua).
 
-Task Scheduling: Uses RunService.RenderStepped for frame-perfect visual updates and RunService.Stepped for physics-synced logic.
+## Technical Architecture
 
-Memory Management: Optimized to reduce footprint on Client Memory Usage.
+* **Core Engine**: Built on Luau (Roblox's derivative of Lua).
 
-Input Handling: Managed via UserInputService to support dynamic keybinding.
+* **Task Scheduling**: Uses RunService.RenderStepped for frame-perfect visual updates and RunService.Stepped for physics-synced logic.
+
+* **Memory Management**: Optimized to reduce footprint on Client Memory Usage through modular function handling.
+
+* **Input Handling**: Managed via UserInputService to support dynamic keybinding and UI visibility toggles.
 
 Academic Context
 This project serves as a practical implementation of software engineering principles, specifically regarding memory mapping, process manipulation, and real-time rendering synchronization. It reflects an ongoing interest in PC hardware performance and software-engine interactions.
