@@ -23,8 +23,8 @@ The script utilizes a custom Glassmorphism UI framework. Key design elements inc
 To initialize the Hub, execute the following loadstring in a compatible environment:
 
 ```lua
-loadstring(game:HttpGet("[https://raw.githubusercontent.com/IXALS/ARCHEMARA---IXALS/refs/heads/main/Main.lua](https://raw.githubusercontent.com/IXALS/ARCHEMARA---IXALS/refs/heads/main/Main.lua)"))()
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/IXALS/ARCHEMARA---IXALS/refs/heads/main/Main.lua"))() 
+```
 Technical Architecture
 Core Engine: Built on Luau (Roblox's derivative of Lua).
 
